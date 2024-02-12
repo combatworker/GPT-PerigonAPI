@@ -1,0 +1,1011 @@
+openapi: "3.0.0"
+info:
+  title: Perigon API
+  description: Perigon API for accessing various types of news, media, and entity data.
+  version: 1.0.0
+servers:
+  - url: https://api.goperigon.com/v1
+    description: Perigon API server
+paths:
+  /all:
+    get:
+      operationId: getAllArticles
+      summary: Retrieve all news articles that match a query
+      description: Search and retrieve all news articles that match your query. Results are returned as individual articles.
+      parameters:
+        - in: query
+          name: apiKey
+          required: true
+          schema:
+            type: string
+          description: API key for authentication.
+        - in: query
+          name: q
+          schema:
+            type: string            
+          description: Search query, each article will be scored and ranked against it. Articles are searched on the title, description, and content fields.
+        - in: query
+          name: title
+          schema:
+            type: string
+          description: Search article headlines/title field. Semantic similar to q parameter.
+        - in: query
+          name: desc
+          schema:
+            type: string
+          description: Search query on the description field. Semantic similar to q parameter.
+        - in: query
+          name: content
+          schema:
+            type: string
+          description: Search query on the article's body of content field. Semantic similar to q parameter.
+        - in: query
+          name: url
+          schema:
+            type: string
+          description: Search query on the url field. Semantic similar to q parameter. E.g. could be used for querying certain website sections, e.g. source=cnn.com&url=travel.
+        - in: query
+          name: articleId
+          schema:
+            type: string
+          description: Article ID will search for a news article by the ID of the article. If several parameters are passed, all matched articles will be returned.
+        - in: query
+          name: clusterId
+          schema:
+            type: string
+          description: Search for related content using a cluster ID. Passing a cluster ID will filter results to only the content found within the cluster.
+        - in: query
+          name: from
+          schema:
+            type: string
+            format: date
+          description: 'from' filter, will search articles published after the specified date, the date could be passed as ISO or 'yyyy-mm-dd'. Add time in ISO format, ie. 2023-03-01T00:00:00
+        - in: query
+          name: to
+          schema:
+            type: string
+            format: date
+          description: 'to' filter, will search articles published before the specified date, the date could be passed as ISO or 'yyyy-mm-dd'. Add time in ISO format, ie. 2022-02-01T23:59:59
+        - in: query
+          name: addDateFrom
+          schema:
+            type: string
+            format: date
+          description: 'addDateFrom' filter, will search articles added after the specified date, the date could be passed as ISO or 'yyyy-mm-dd'. Add time in ISO format, ie. 2022-02-01T00:00:00
+        - in: query
+          name: addDateTo
+          schema:
+            type: string
+            format: date
+          description: 'addDateTo' filter, will search articles added before the specified date, the date could be passed as ISO or 'yyyy-mm-dd'. Add time in ISO format, ie. 2022-02-01T23:59:59
+        - in: query
+          name: refreshDateFrom
+          schema:
+            type: string
+            format: date
+          description: Will search articles that were refreshed after the specified date. The date could be passed as ISO or 'yyyy-mm-dd'. Add time in ISO format, ie. 2022-02-01T00:00:00
+        - in: query
+          name: refreshDateTo
+          schema:
+            type: string
+            format: date
+          description: Will search articles that were refreshed before the specified date. The date could be passed as ISO or 'yyyy-mm-dd'. Add time in ISO format, ie. 2022-02-01T23:59:59
+        - in: query
+          name: medium
+          schema:
+            type: string
+          description: Medium will filter out news articles medium, which could be 'Video' or 'Article'. If several parameters are passed, all matched articles will be returned.
+        - in: query
+          name: source
+          schema:
+            type: string
+          description: Publisher's domain can include a subdomain. If multiple parameters are passed, they will be applied as OR operations. Wildcards (* and ?) are suported (e.g. *.cnn.com)
+        - in: query
+          name: sourceGroup
+          schema:
+            type: string
+          description: One of the supported source groups. Find Source Groups in the guided part of our documentation.
+        - in: query
+          name: excludeSource
+          schema:
+            type: string
+          description: The domain of the website, which should be excluded from the search. Multiple parameters could be provided. Wildcards (* and ?) are suported (e.g. *.cnn.com).
+        - in: query
+          name: paywall
+          schema:
+            type: boolean
+          description: Filter to show only results where the source has a paywall (true) or does not have a paywall (false).
+        - in: query
+          name: byline
+          schema:
+            type: string
+          description: Author names to filter by. Article author bylines are used as a source field. If multiple parameters are passed, they will be applied as OR operations.
+        - in: query
+          name: journalistId
+          schema:
+            type: string
+          description: Filter by journalist ID. Journalist IDs are unique journalist identifiers which can be found through the Journalist API, or in the matchedAuthors field.
+        - in: query
+          name: source
+          schema:
+            type: string
+          description: Publisher's domain can include a subdomain. If multiple parameters are passed, they will be applied as OR operations. Wildcards (* and ?) are suported (e.g. *.cnn.com)
+        - in: query
+          name: sourceGroup
+          schema:
+            type: string
+          description: One of the supported source groups. Find Source Groups in the guided part of our documentation.
+        - in: query
+          name: excludeSource
+          schema:
+            type: string
+          description: The domain of the website, which should be excluded from the search. Multiple parameters could be provided. Wildcards (* and ?) are suported (e.g. *.cnn.com).
+        - in: query
+          name: paywall
+          schema:
+            type: boolean
+          description: Filter to show only results where the source has a paywall (true) or does not have a paywall (false).
+        - in: query
+          name: byline
+          schema:
+            type: string
+          description: Author names to filter by. Article author bylines are used as a source field. If multiple parameters are passed, they will be applied as OR operations.
+        - in: query
+          name: journalistId
+          schema:
+            type: string
+          description: Filter by journalist ID. Journalist IDs are unique journalist identifiers which can be found through the Journalist API, or in the matchedAuthors field.
+        - in: query
+          name: source
+          schema:
+            type: string
+          description: Publisher's domain can include a subdomain. If multiple parameters are passed, they will be applied as OR operations. Wildcards (* and ?) are suported (e.g. *.cnn.com)
+        - in: query
+          name: sourceGroup
+          schema:
+            type: string
+          description: One of the supported source groups. Find Source Groups in the guided part of our documentation.
+        - in: query
+          name: excludeSource
+          schema:
+            type: string
+          description: The domain of the website, which should be excluded from the search. Multiple parameters could be provided. Wildcards (* and ?) are suported (e.g. *.cnn.com).
+        - in: query
+          name: paywall
+          schema:
+            type: boolean
+          description: Filter to show only results where the source has a paywall (true) or does not have a paywall (false).
+        - in: query
+          name: byline
+          schema:
+            type: string
+          description: Author names to filter by. Article author bylines are used as a source field. If multiple parameters are passed, they will be applied as OR operations.
+        - in: query
+          name: journalistId
+          schema:
+            type: string
+          description: Filter by journalist ID. Journalist IDs are unique journalist identifiers which can be found through the Journalist API, or in the matchedAuthors field.
+        - in: query
+          name: language
+          schema:
+            type: string
+          description: Language code to filter by language. If multiple parameters are passed, they will be applied as OR operations.
+        - in: query
+          name: searchTranslation
+          schema:
+            type: boolean
+          description: Expand a query to search the translation, translatedTitle, and translatedDescription fields for non-English articles.
+        - in: query
+          name: label
+          schema:
+            type: string
+          description: Labels to filter by, could be 'Opinion', 'Paid-news', 'Non-news', etc. If multiple parameters are passed, they will be applied as OR operations.
+        - in: query
+          name: excludeLabel
+          schema:
+            type: string
+          description: Exclude results that include specific labels (Opinion, Non-news, Paid News, etc.). You can filter multiple by repeating the parameter.
+        - in: query
+          name: category
+          schema:
+            type: string
+          description: Filter by categories. Categories are general themes that the article is about.
+        - in: query
+          name: topic
+          schema:
+            type: string
+          description: Filter by topics. Each topic is some kind of entity that the article is about.
+        - in: query
+          name: linkTo
+          schema:
+            type: string
+          description: Returns only articles that point to specified links (as determined by the 'links' field in the article response).
+        - in: query
+          name: showReprints
+          schema:
+            type: boolean
+          description: Whether to return reprints in the response or not. Reprints are usually wired articles from sources like AP or Reuters that are reprinted in multiple sources at the same time. By default, this parameter is 'true'.
+        - in: query
+          name: reprintGroupId
+          schema:
+            type: string
+          description: Shows all articles belonging to the same reprint group. A reprint group includes one original article (the first one processed by the API) and all its known reprints.
+        - in: query
+          name: city
+          schema:
+            type: string
+          description: Filter local news by city. Applies only to local news, when this param is passed non-local news will not be returned. If multiple parameters are passed, they will be applied as OR operations. 
+        - in: query
+          name: area
+          schema:
+            type: string
+          description: Filter local news by area. Applies only to local news, when this param is passed non-local news will not be returned. If multiple parameters are passed, they will be applied as OR operations.
+        - in: query
+          name: state
+          schema:
+            type: string
+          description: Filter local news by state. Applies only to local news, when this param is passed non-local news will not be returned. If multiple parameters are passed, they will be applied as OR operations.
+        - in: query
+          name: country
+          schema:
+            type: string
+          description: Country code to filter by country. If multiple parameters are passed, they will be applied as OR operations.
+        - in: query
+          name: location
+          schema:
+            type: string
+          description: Return all articles that have the specified location. Location attributes are delimited by ':' between key and value, and '::' between attributes.
+        - in: query
+          name: lat
+          schema:
+            type: number
+            format: float
+          description: Latitude of the center point to search places.
+        - in: query
+          name: lon
+          schema:
+            type: number
+            format: float
+          description: Longitude of the center point to search places
+        - in: query
+          name: maxDistance
+          schema:
+            type: integer
+            format: int32
+          description: Maximum distance (in km) from starting point to search articles by tagged places.
+        - in: query
+          name: sourceCity
+          schema:
+            type: string
+          description: Find articles published by sources that are located within a given city.
+        - in: query
+          name: sourceCounty
+          schema:
+            type: string
+          description: Find articles published by sources that are located within a given county.
+        - in: query
+          name: sourceCountry
+          schema:
+            type: string
+          description: Find articles published by sources that are located within a given country. Must be 2 character country code (i.e. us, gb, etc).
+        - in: query
+          name: sourceState
+          schema:
+            type: string
+          description: Find articles published by sources that are located within a given state.
+        - in: query
+          name: sourceLon
+          schema:
+            type: number
+            format: float
+          description: Latitude of the center point to search articles created by local publications.
+        - in: query
+          name: sourceLat
+          schema:
+            type: integer
+            format: float
+          description: Latitude of the center point to search articles created by local publications.
+        - in: query
+          name: sourceMaxDistance
+          schema:
+            type: integer
+            format: int32
+          description: Maximum distance from starting point to search articles created by local publications.
+        - in: query
+          name: personWikidataId
+          schema:
+            type: array of strings
+          description: List of person Wikidata IDs for filtering.
+        - in: query
+          name: personName
+          schema:
+            type: array of strings
+          description: List of person names for exact matches. Boolean and complex logic is not supported on this paramter.
+        - in: query
+          name: companyId
+          schema:
+            type: array of strings
+          description: List of company IDs to filter by.
+        - in: query
+          name: companyName
+          schema:
+            type: string
+          description: Search by company name.
+        - in: query
+          name: companyDomain
+          schema:
+            type: array of strings
+          description: Search by company domains for filtering. E.g. companyDomain=apple.com.
+        - in: query
+          name: companySymbol
+          schema:
+            type: array of strings
+          description: Search by company symbols.
+        - in: query
+          name: page
+          schema:
+            type: integer
+            format: int32
+          description: Zero-based page number. From 0 to 10000. See the Pagination section for limitations.
+        - in: query
+          name: size
+          schema:
+            type: integer
+            format: int32
+          description: Number of articles returned per page, from 0 to 100.
+        - in: query
+          name: sortBy
+          schema:
+            type: string
+          description: 'relevance' to sort by relevance to the query, 'date' to sort by the publication date (desc), 'pubDate' is a synonym to 'date', 'addDate' to sort by 'addDate' field (desc), 'refreshDate' to sort by 'refreshDate' field (desc).
+        - in: query
+          name: showNumResults
+          schema:
+            type: boolean
+          description: Whether to show the total number of all matched articles. Default value is false which makes queries a bit more efficient but also counts up to 10000 articles.
+        - in: query
+          name: type
+          schema:
+            type: string
+          description: Returns only a specific type of results. Use 'local' to return only local news, use 'world' to return only non-local news, or use 'all' for all results (the default).
+      responses:
+        '200':
+          description: A list of articles
+          content:
+            application/json:
+              schema: 
+                type: array
+                items: 
+                  $ref: '#/components/schemas/Articles'
+  /sources:
+    get:
+      operationId: getMediaSources
+      summary: Retrieve information on media sources
+      description: Search and retrieve information on over 130,000+ media sources supported by Perigon.
+      parameters:
+        - in: query
+          name: apiKey
+          required: true
+          schema:
+            type: string
+          description: API key for authentication.
+        - in: query
+          name: domain
+          schema:
+            type: string
+          description: Domain name for the media source to lookup. This parameter supports wildcard queries, ie. "*.cnn.com" will match all subdomains for cnn.com.
+        - in: query
+          name: name
+          schema:
+            type: string
+          description: Search by name of source.
+        - in: query
+          name: country
+          schema:
+            type: string
+          description: Country code to filter sources by the countries in which they most commonly cover.
+        - in: query
+          name: minMonthlyVisits
+          schema:
+            type: integer
+            format: int32
+          description: Filter by minimum number of monthly visitors.
+        - in: query
+          name: maxMonthlyVisits
+          schema:
+            type: integer
+            format: int32
+          description: Filter by maximum number of monthly visitors.
+        - in: query
+          name: sourceCity
+          schema:
+            type: string
+          description: Find all local publications that are located within a given city.
+        - in: query
+          name: sourceCounty
+          schema:
+            type: string
+          description: Find all local publications that are located within a given county.
+        - in: query
+          name: sourceState
+          schema:
+            type: string
+          description: Find all local publications that are located within a given state.
+        - in: query
+          name: sourceCountry
+          schema:
+            type: string
+          description: Find all local publications that are located within a given country.
+        - in: query
+          name: sourceLat
+          schema:
+            type: number
+            format: float
+          description: Latitude of the center point to search local publications.
+        - in: query
+          name: sourceLon
+          schema:
+            type: number
+            format: float
+          description: Search by name of source.
+        - in: query
+          name: category
+          schema:
+            type: string
+          description: Filter by categories.
+        - in: query
+          name: sourceGroup
+          schema:
+            type: string
+          description: Find all sources within a Source Group.
+        - in: query
+          name: sortBy
+          schema:
+            type: string
+          description: Use 'relevance' to sort by relevance to the query; globalRank for top ranked sources based on popularity; monthlyVisits for sources with the largest audience; avgMonthlyPosts for sources with the highest publishing frequency.
+        - in: query
+          name: size
+          schema:
+            type: integer
+            format: int32
+          description: Number of sources returned, from 1 to 100.
+        - in: query
+          name: paywall
+          schema:
+            type: boolean
+          description: Use 'true' to find only sources known to have a paywall, or use 'false' to filter for only sources that do not have a paywall.
+        - in: query
+          name: topic
+          schema:
+            type: string
+          description: Find sources by topic.
+        - in: query
+          name: label
+          schema:
+            type: string
+          description: Filter sources by label.
+        - in: query
+          name: minMonthlyPosts
+          schema:
+            type: integer
+            format: int32
+          description: Returns the sources that have at least this number of average monthly posts.
+        - in: query
+          name: maxMonthlyPosts
+          schema:
+            type: integer
+            format: int32
+          description: Returns the sources that have at most this number of average monthly posts.
+        - in: query
+          name: showNumResults
+          schema:
+            type: boolean
+          description: If 'true', shows accurate number of results matched by the query. By default, the counter is accurate only up to 10,000 results due performance reasons.
+        - in: query
+          name: sourceMaxDistance
+          schema:
+            type: integer
+            format: int32
+          description: Maximum distance from starting point to search local publications.
+      responses:
+        '200':
+          description: A list of media sources
+          content:
+            application/json:
+              schema: 
+                type: array
+                items: 
+                  $ref: '#/components/schemas/Sources'
+  /journalists:
+    get:
+      operationId: searchJournalists
+      summary: Retrieve information on journalists
+      description: Provides functionality to retrieve additional journalist information.
+      parameters:
+        - in: query
+          name: apiKey
+          required: true
+          schema:
+            type: string
+          description: API key for authentication.
+        - in: query
+          name: q
+          schema:
+            type: string
+          description: Searches through name, title, twitterBio fields with priority given to the name, then to the title, then to the twitter bio. Returns results sorted by relevance.
+        - in: query
+          name: name
+          schema:
+            type: string
+          description: Searches through journalist names, scores and ranks them, returns results sorted by relevance.
+        - in: query
+          name: twitter
+          schema:
+            type: string
+          description: Searches for journalists by (exact match) twitter handle.
+      responses:
+        '200':
+          description: A list of journalists
+          content:
+            application/json:
+              schema: 
+                type: array
+                items: 
+                  $ref: '#/components/schemas/Journalists'
+  /people/all:
+    get:
+      operationId: getAllPeople
+      summary: Retrieve information on known persons
+      description: Search and retrieve additional information on known persons existing within Perigon's entity database.
+      parameters:
+        - in: query
+          name: apiKey
+          required: true
+          schema:
+            type: string
+          description: API key for authentication.
+        - in: query
+          name: name
+          schema:
+            type: string
+          description: Search by name of the person. Boolean operators and logic is supported.
+        - in: query
+          name: wikidataId
+          schema:
+            type: array of strings
+          description: Search by ID of Wikidata entity.
+        - in: query
+          name: occupationId
+          schema:
+            type: array of strings
+          description: Search by Wikidata occupation ID.
+        - in: query
+          name: occupationLabel
+          schema:
+            type: string
+          description: Search by occupation name. Boolean operators and logic are supported.
+        - in: query
+          name: size
+          schema:
+            type: integer
+            format: int32
+          description: Number of documents returned per page, from 0 to 100.
+      responses:
+        '200':
+          description: Information on known persons
+          content:
+            application/json:
+              schema: 
+                type: array
+                items: 
+                  $ref: '#/components/schemas/People'
+  /companies/all:
+    get:
+      operationId: getAllCompanies
+      summary: Retrieve information on companies
+      description: Search and retrieve additional information on companies existing within Perigon's entity database.
+      parameters:
+        - in: query
+          name: apiKey
+          required: true
+          schema:
+            type: string
+          description: API key for authentication.
+        - in: query
+          name: id
+          schema:
+            type: string
+          description: Search by company id.
+        - in: query
+          name: symbol
+          schema:
+            type: array of strings
+          description: Search by ticker symbol.
+        - in: query
+          name: domain
+          schema:
+            type: array of strings
+          description: Search by company domain.
+        - in: query
+          name: country
+          schema:
+            type: array of strings
+          description: Search by company country.
+        - in: query
+          name: exchange
+          schema:
+            type: array of strings
+          description: Search by exchange name.
+        - in: query
+          name: numEmployeesFrom
+          schema:
+            type: integer
+            format: int32
+          description: Minimum number of employees.
+        - in: query
+          name: numEmployeesTo
+          schema:
+            type: integer
+            format: int32
+          description: Maximum number of employees.
+        - in: query
+          name: ipoFrom
+          schema:
+            type: string
+            format: date
+          description: Starting IPO date.
+        - in: query
+          name: ipoTo
+          schema:
+            type: string
+            format: date
+          description: Ending IPO date.
+        - in: query
+          name: q
+          schema:
+            type: string
+          description: Search companies over 'name', 'altNames', 'domains' and 'symbols.symbol' fields. Boolean operators and logic are supported.
+        - in: query
+          name: name
+          schema:
+            type: string
+          description: Search by company name. Boolean operators and logic are supported.
+        - in: query
+          name: industry
+          schema:
+            type: string
+          description: Search by industry. Boolean operators and logic are supported.
+        - in: query
+          name: sector
+          schema:
+            type: string
+          description: Search by sector. Boolean operators and logic are supported.
+        - in: query
+          name: size
+          schema:
+            type: integer
+            format: int32
+          description: Number of results returned per page, from 0 to 100.
+      responses:
+        '200':
+          description: Information on companies
+          content:
+            application/json:
+              schema: 
+                type: array
+                items: 
+                  $ref: '#/components/schemas/Companies'
+components:
+  schemas:
+    Articles:
+      type: object
+      properties:
+        q:
+          type: string
+          description: Search query, each article will be scored and ranked against it. Articles are searched on the title, description, and content fields.
+        title:
+          type: string
+          description: Search article headlines/title field. Semantic similar to q parameter.
+        desc:
+          type: string
+          description: Search query on the description field. Semantic similar to q parameter.
+        content:
+          type: string
+          description: Search query on the article's body of content field. Semantic similar to q parameter.
+        url:
+          type: string
+          description: Search query on the url field. Semantic similar to q parameter. E.g. could be used for querying certain website sections, e.g. source=cnn.com&url=travel.
+        articleId:
+          type: string
+          description: Article ID will search for a news article by the ID of the article. If several parameters are passed, all matched articles will be returned.
+        from:
+          type: string
+          format: date
+          description: 'from' filter, will search articles published after the specified date, the date could be passed as ISO or 'yyyy-mm-dd'. Add time in ISO format, ie. 2023-03-01T00:00:00
+        to:
+          type: string
+          format: date
+          description: 'to' filter, will search articles published before the specified date, the date could be passed as ISO or 'yyyy-mm-dd'. Add time in ISO format, ie. 2022-02-01T23:59:59
+        addDateFrom:
+          type: string
+          format: date
+          description: 'addDateFrom' filter, will search articles added after the specified date, the date could be passed as ISO or 'yyyy-mm-dd'. Add time in ISO format, ie. 2022-02-01T00:00:00
+        addDateTo:
+          type: string
+          format: date
+          description: 'addDateTo' filter, will search articles added before the specified date, the date could be passed as ISO or 'yyyy-mm-dd'. Add time in ISO format, ie. 2022-02-01T23:59:59
+        refreshDateFrom:
+          type: string
+          format: date
+          description: Will search articles that were refreshed after the specified date. The date could be passed as ISO or 'yyyy-mm-dd'. Add time in ISO format, ie. 2022-02-01T00:00:00
+        refreshDateTo:
+          type: string
+          format: date
+          description: Will search articles that were refreshed before the specified date. The date could be passed as ISO or 'yyyy-mm-dd'. Add time in ISO format, ie. 2022-02-01T23:59:59
+        medium:
+          type: string
+          description: Medium will filter out news articles medium, which could be 'Video' or 'Article'. If several parameters are passed, all matched articles will be returned.
+        source:
+          type: string
+          description: Publisher's domain can include a subdomain. If multiple parameters are passed, they will be applied as OR operations. Wildcards (* and ?) are suported (e.g. *.cnn.com).
+        sourceGroup:
+          type: string
+          description: One of the supported source groups. Find Source Groups in the guided part of our documentation.
+        excludeSource:
+          type: string
+          description: The domain of the website, which should be excluded from the search. Multiple parameters could be provided. Wildcards (* and ?) are suported (e.g. *.cnn.com).
+        paywall:
+          type: boolean
+          description: Filter to show only results where the source has a paywall (true) or does not have a paywall (false).
+        byline:
+          type: string
+          description: Author names to filter by. Article author bylines are used as a source field. If multiple parameters are passed, they will be applied as OR operations.
+        journalistId:
+          type: string
+          description: Filter by journalist ID. Journalist IDs are unique journalist identifiers which can be found through the Journalist API, or in the matchedAuthors field.
+        language:
+          type: string
+          description: Language code to filter by language. If multiple parameters are passed, they will be applied as OR operations.
+        searchTranslation:
+          type: boolean
+          description: Expand a query to search the translation, translatedTitle, and translatedDescription fields for non-English articles.
+        label:
+          type: string
+          description: Labels to filter by, could be 'Opinion', 'Paid-news', 'Non-news', etc. If multiple parameters are passed, they will be applied as OR operations.
+        excludeLabel:
+          type: string
+          description: Exclude results that include specific labels (Opinion, Non-news, Paid News, etc.). You can filter multiple by repeating the parameter.
+        category:
+          type: string
+          description: Filter by categories. Categories are general themes that the article is about.
+        topic:
+          type: string
+          description: Filter by topics. Each topic is some kind of entity that the article is about.
+        linkTo:
+          type: string
+          description: Returns only articles that point to specified links (as determined by the 'links' field in the article response).
+        showReprints:
+          type: boolean
+          description: Whether to return reprints in the response or not. Reprints are usually wired articles from sources like AP or Reuters that are reprinted in multiple sources at the same time. By default, this parameter is 'true'.
+        reprintGroupId:
+          type: string
+          description: Shows all articles belonging to the same reprint group. A reprint group includes one original article (the first one processed by the API) and all its known reprints.
+        city:
+          type: string
+          description: Filter local news by city. Applies only to local news, when this param is passed non-local news will not be returned. If multiple parameters are passed, they will be applied as OR operations.
+        area:
+          type: string
+          description: Filter local news by area. Applies only to local news, when this param is passed non-local news will not be returned. If multiple parameters are passed, they will be applied as OR operations.
+        state:
+          type: string
+          description: Filter local news by state. Applies only to local news, when this param is passed non-local news will not be returned. If multiple parameters are passed, they will be applied as OR operations.
+        country:
+          type: string
+          description: Country code to filter by country. If multiple parameters are passed, they will be applied as OR operations.
+        location:
+          type: string
+          description: Return all articles that have the specified location. Location attributes are delimited by ':' between key and value, and '::' between attributes.
+        lat:
+          type: number
+          format: float
+          description: Latitude of the center point to search places
+        lon:
+          type: number
+          format: float
+          description: Longitude of the center point to search places
+        maxDistance:
+          type: integer
+          format: int32
+          description: Maximum distance (in km) from starting point to search articles by tagged places
+        sourceCity:
+          type: string
+          description: Find articles published by sources that are located within a given city.
+        sourceCounty:
+          type: string
+          description: Find articles published by sources that are located within a given county.
+        sourceCountry:
+          type: string
+          description: Find articles published by sources that are located within a given country. Must be 2 character country code (i.e. us, gb, etc).
+        sourceState:
+          type: string
+          description: Find articles published by sources that are located within a given state.
+        sourceLon:
+          type: number
+          format: float
+          description: Latitude of the center point to search articles created by local publications.
+        sourceLat:
+          type: number
+          format: float
+          description: Latitude of the center point to search articles created by local publications.
+        sourceMaxDistance:
+          type: integer
+          format: int32
+          description: Maximum distance from starting point to search articles created by local publications.
+        personWikidataId:
+          type: array of strings
+          description: List of person Wikidata IDs for filtering.
+         personName:
+          type: array of strings
+          description: List of person names for exact matches. Boolean and complex logic is not supported on this paramter.
+        companyId:
+          type: array of strings
+          description: List of company IDs to filter by.
+        companyName:
+          type: string
+          description: Search by company name.
+        companyDomain:
+          type: array of strings
+          description: Search by company domains for filtering. E.g. companyDomain=apple.com.
+        companySymbol:
+          type: array of strings
+          description: Search by company symbols.
+        page:
+          type: integer
+          format: int32
+          description: Zero-based page number. From 0 to 10000. See the Pagination section for limitations.
+        size:
+          type: integer
+          format: int32
+          description: Number of articles returned per page, from 0 to 100.
+        sortBy:
+          type: string
+          description: 'relevance' to sort by relevance to the query, 'date' to sort by the publication date (desc), 'pubDate' is a synonym to 'date', 'addDate' to sort by 'addDate' field (desc), 'refreshDate' to sort by 'refreshDate' field (desc). 
+        showNumResults:
+          type: boolean
+          description: Whether to show the total number of all matched articles. Default value is false which makes queries a bit more efficient but also counts up to 10000 articles.
+        type:
+          type: string
+          description: Returns only a specific type of results. Use 'local' to return only local news, use 'world' to return only non-local news, or use 'all' for all results (the default).
+    Journalists:
+      type: object
+      properties:
+        q:
+          type: string
+          description: Searches through name, title, twitterBio fields with priority given to the name, then to the title, then to the twitter bio. Returns results sorted by relevance.
+        name:
+          type: string
+          description: Searches through journalist names, scores and ranks them, returns results sorted by relevance.
+        twitter:
+          type: string
+          description: Searches for journalists by (exact match) twitter handle.
+    People:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Search by name of the person. Boolean operators and logic is supported.
+        wikidataId:
+          type: array of strings
+          description: Search by ID of Wikidata entity.
+        occupationId:
+          type: array of strings
+          description: Search by Wikidata occupation ID.
+        occupationLabel:
+          type: string
+          description: Search by occupation name. Boolean operators and logic are supported.
+    Companies:
+      type: object
+      properties:
+        id:
+          type: array of strings
+          description: Search by company id.
+        symbol:
+          type: array of strings
+          description: Search by ticker symbol.
+        domain:
+          type: array of strings
+          description: Search by company domain.
+        country:
+          type: array of strings
+          description: Search by company country.
+        exchange:
+          type: array of strings
+          description: Search by exchange name.
+        numEmployeesFrom:
+          type: integer
+          format: int32
+          description: Minimum number of employees.
+        numEmployeesTo:
+          type: integer
+          format: int32
+          description: Maximum number of employees.
+        ipoFrom:
+          type: string
+          format: date
+          description: Starting IPO date.
+        ipoTo:
+          type: string
+          format: date
+          description: Ending IPO date.
+        q:
+          type: string
+          description: Search companies over 'name', 'altNames', 'domains' and 'symbols.symbol' fields. Boolean operators and logic are supported.
+        name:
+          type: string
+          description: Search by company name. Boolean operators and logic are supported.
+        industry:
+          type: string
+          description: Search by industry. Boolean operators and logic are supported.
+        sector:
+          type: string
+          description: Search by sector. Boolean operators and logic are supported.
+        size:
+          type: integer
+          format: int32
+          description: Number of results returned per page, from 0 to 100.
+    Sources:
+      type: object
+      properties:
+        domain:
+          type: string
+          description: Domain name for the media source to lookup. This parameter supports wildcard queries, ie. "*.cnn.com" will match all subdomains for cnn.com.
+        name:
+          type: string
+          description: Search by name of source. This parameter supports complex boolean search operators, and also searches the altNames field for alternative names of the source.
+        country:
+          type: string
+          description: Country code to filter sources by the countries in which they most commonly cover. If multiple parameters are passed, they will be applied as OR operations.
+        minMonthlyVisits:
+          type: integer
+          format: int32
+          description: Enter a maximum number of monthly visits that the source must have in order to match your query.
+        sourceCity:
+          type: string
+          description: Find all local publications that are located within a given city.
+        sourceCounty:
+          type: string
+          description: Find all local publications that are located within a given county.
+        sourceState:
+          type: string
+          description: Find all local publications that are located within a given state.
+        sourceCountry:
+          type: string
+          description: Find all local publications that are located within a given country.
+        sourceLat:
+          type: number
+          format: float
+          description: Latitude of the center point to search local publications.
+        sourceLon:
+          type: number
+          format: float
+          description: Longitude of the center point to search local publications.
+        category:
+          type: string
+          description: Filter by categories. Categories are general themes that the article is about.
+        sourceGroup:
+          type: string
+          description: Find all sources within a sourceGroup. Find Source Groups in the guided part of our documentation.
+        sortBy:
+          type: string
+          description: Use 'relevance' to sort by relevance to the query; globalRank for top ranked sources based on popularity; monthlyVisits for sources with the largest audience; avgMonthlyPosts for sources with the highest publishing frequency.
+        size:
+          type: integer
+          format: int32
+          description: Number of sources returned, from 1 to 100. The default is 10. Pagination is not currently supported for the sources endpoint.
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+security:
+  - ApiKeyAuth: []
